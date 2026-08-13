@@ -75,10 +75,10 @@ jobs:
             ./gradlew --no-daemon --stacktrace \
               -Pdeploy.version=${{ needs.resolve-version.outputs.deploy_version }} \
               -Pdeploy.release=${{ needs.resolve-version.outputs.deploy_release }} \
-              -Pskiko.native.enabled=true \
               -Pskiko.awt.enabled=true \
               -Pskiko.arch=x64 \
-              :skiko:publishToComposeRepo
+              :skiko:publishToComposeRepo \
+              :skiko-graphite:publishToComposeRepo
 
       - uses: ./.github/actions/docker-skiko-run
         name: 'Publish Native'
@@ -92,7 +92,7 @@ jobs:
             ./gradlew --no-daemon --stacktrace \
               -Pdeploy.version=${{ needs.resolve-version.outputs.deploy_version }} \
               -Pdeploy.release=${{ needs.resolve-version.outputs.deploy_release }} \
-              -Pskiko.native.enabled=true \
+              -Pskiko.native.linux.enabled=true \
               -Pskiko.awt.enabled=false \
               :skiko:publishLinuxArm64PublicationToComposeRepoRepository \
               :skiko:publishLinuxX64PublicationToComposeRepoRepository
@@ -122,7 +122,8 @@ jobs:
               -Pdeploy.release=${{ needs.resolve-version.outputs.deploy_release }} \
               -Pskiko.awt.enabled=true \
               -Pskiko.arch=arm64 \
-              :skiko:publishSkikoJvmRuntimeLinuxArm64PublicationToComposeRepoRepository
+              :skiko:publishSkikoJvmRuntimeLinuxArm64PublicationToComposeRepoRepository \
+              :skiko-graphite:publishSkikoJvmRuntimeLinuxArm64PublicationToComposeRepoRepository
 
   macOS:
     name: 'macOS'
@@ -151,10 +152,11 @@ jobs:
           ./gradlew --no-daemon --stacktrace \
             -Pdeploy.version=${{ needs.resolve-version.outputs.deploy_version }} \
             -Pdeploy.release=${{ needs.resolve-version.outputs.deploy_release }} \
-            -Pskiko.native.enabled=true \
+            -Pskiko.native.mac.enabled=true \
             -Pskiko.awt.enabled=true \
             -Pskiko.arch=arm64 \
-            :skiko:publishToComposeRepo
+            :skiko:publishToComposeRepo \
+            :skiko-graphite:publishToComposeRepo
 
       - shell: bash
         name: 'Publish AWT Runtime x64'
@@ -168,7 +170,8 @@ jobs:
             -Pdeploy.release=${{ needs.resolve-version.outputs.deploy_release }} \
             -Pskiko.awt.enabled=true \
             -Pskiko.arch=x64 \
-            :skiko:publishSkikoJvmRuntimeMacosX64PublicationToComposeRepoRepository
+            :skiko:publishSkikoJvmRuntimeMacosX64PublicationToComposeRepoRepository \
+            :skiko-graphite:publishSkikoJvmRuntimeMacosX64PublicationToComposeRepoRepository
 
   Windows:
     name: 'Windows'
@@ -201,10 +204,10 @@ jobs:
           ./gradlew --no-daemon --stacktrace \
             -Pdeploy.version=${{ needs.resolve-version.outputs.deploy_version }} \
             -Pdeploy.release=${{ needs.resolve-version.outputs.deploy_release }} \
-            -Pskiko.native.enabled=true \
             -Pskiko.awt.enabled=true \
             -Pskiko.arch=x64 \
-            :skiko:publishToComposeRepo
+            :skiko:publishToComposeRepo \
+            :skiko-graphite:publishToComposeRepo
 
       - shell: bash
         name: 'Publish AWT Runtime arm64'
@@ -218,4 +221,5 @@ jobs:
             -Pdeploy.release=${{ needs.resolve-version.outputs.deploy_release }} \
             -Pskiko.awt.enabled=true \
             -Pskiko.arch=arm64 \
-            :skiko:publishSkikoJvmRuntimeWindowsArm64PublicationToComposeRepoRepository
+            :skiko:publishSkikoJvmRuntimeWindowsArm64PublicationToComposeRepoRepository \
+            :skiko-graphite:publishSkikoJvmRuntimeWindowsArm64PublicationToComposeRepoRepository

@@ -28,18 +28,10 @@ val skikoArtifactIds: List<String> =
         skikoArtifacts.jvmRuntimeArtifactIdFor(OS.MacOS, Arch.Arm64),
         skikoArtifacts.jvmAdditionalRuntimeArtifactIdFor("angle", OS.Windows, Arch.X64),
         skikoArtifacts.jvmAdditionalRuntimeArtifactIdFor("angle", OS.Windows, Arch.Arm64),
-        skikoArtifacts.jsArtifactId,
-        skikoArtifacts.wasmArtifactId,
         skikoArtifacts.nativeArtifactIdFor(OS.Linux, Arch.X64),
         skikoArtifacts.nativeArtifactIdFor(OS.Linux, Arch.Arm64),
         skikoArtifacts.nativeArtifactIdFor(OS.MacOS, Arch.Arm64),
         skikoArtifacts.nativeArtifactIdFor(OS.MacOS, Arch.X64),
-        skikoArtifacts.nativeArtifactIdFor(OS.IOS, Arch.X64),
-        skikoArtifacts.nativeArtifactIdFor(OS.IOS, Arch.Arm64),
-        skikoArtifacts.nativeArtifactIdFor(OS.IOS, Arch.Arm64, isUikitSim = true),
-        skikoArtifacts.nativeArtifactIdFor(OS.TVOS, Arch.X64),
-        skikoArtifacts.nativeArtifactIdFor(OS.TVOS, Arch.Arm64),
-        skikoArtifacts.nativeArtifactIdFor(OS.TVOS, Arch.Arm64, isUikitSim = true),
         "${skikoArtifacts.jvmRuntimeArtifactId}-all",
 
         skikoSkottieArtifacts.commonArtifactId,
@@ -50,29 +42,23 @@ val skikoArtifactIds: List<String> =
         skikoSkottieArtifacts.jvmRuntimeArtifactIdFor(OS.Linux, Arch.Arm64),
         skikoSkottieArtifacts.jvmRuntimeArtifactIdFor(OS.MacOS, Arch.X64),
         skikoSkottieArtifacts.jvmRuntimeArtifactIdFor(OS.MacOS, Arch.Arm64),
-        skikoSkottieArtifacts.jsArtifactId,
-        skikoSkottieArtifacts.wasmArtifactId,
         skikoSkottieArtifacts.nativeArtifactIdFor(OS.Linux, Arch.X64),
         skikoSkottieArtifacts.nativeArtifactIdFor(OS.Linux, Arch.Arm64),
         skikoSkottieArtifacts.nativeArtifactIdFor(OS.MacOS, Arch.Arm64),
         skikoSkottieArtifacts.nativeArtifactIdFor(OS.MacOS, Arch.X64),
-        skikoSkottieArtifacts.nativeArtifactIdFor(OS.IOS, Arch.X64),
-        skikoSkottieArtifacts.nativeArtifactIdFor(OS.IOS, Arch.Arm64),
-        skikoSkottieArtifacts.nativeArtifactIdFor(OS.IOS, Arch.Arm64, isUikitSim = true),
-        skikoSkottieArtifacts.nativeArtifactIdFor(OS.TVOS, Arch.X64),
-        skikoSkottieArtifacts.nativeArtifactIdFor(OS.TVOS, Arch.Arm64),
-        skikoSkottieArtifacts.nativeArtifactIdFor(OS.TVOS, Arch.Arm64, isUikitSim = true),
         "${skikoSkottieArtifacts.jvmRuntimeArtifactId}-all",
 
         skikoGraphiteArtifacts.commonArtifactId,
+        skikoGraphiteArtifacts.jvmArtifactId,
+        skikoGraphiteArtifacts.jvmRuntimeArtifactIdFor(OS.Windows, Arch.X64),
+        skikoGraphiteArtifacts.jvmRuntimeArtifactIdFor(OS.Windows, Arch.Arm64),
+        skikoGraphiteArtifacts.jvmRuntimeArtifactIdFor(OS.Linux, Arch.X64),
+        skikoGraphiteArtifacts.jvmRuntimeArtifactIdFor(OS.Linux, Arch.Arm64),
+        skikoGraphiteArtifacts.jvmRuntimeArtifactIdFor(OS.MacOS, Arch.X64),
+        skikoGraphiteArtifacts.jvmRuntimeArtifactIdFor(OS.MacOS, Arch.Arm64),
+        "${skikoGraphiteArtifacts.jvmRuntimeArtifactId}-all",
         skikoGraphiteArtifacts.nativeArtifactIdFor(OS.MacOS, Arch.Arm64),
         skikoGraphiteArtifacts.nativeArtifactIdFor(OS.MacOS, Arch.X64),
-        skikoGraphiteArtifacts.nativeArtifactIdFor(OS.IOS, Arch.X64),
-        skikoGraphiteArtifacts.nativeArtifactIdFor(OS.IOS, Arch.Arm64),
-        skikoGraphiteArtifacts.nativeArtifactIdFor(OS.IOS, Arch.Arm64, isUikitSim = true),
-        skikoGraphiteArtifacts.nativeArtifactIdFor(OS.TVOS, Arch.X64),
-        skikoGraphiteArtifacts.nativeArtifactIdFor(OS.TVOS, Arch.Arm64),
-        skikoGraphiteArtifacts.nativeArtifactIdFor(OS.TVOS, Arch.Arm64, isUikitSim = true),
 )
 
 val downloadSkikoArtifactsFromComposeDev by tasks.registering(DownloadFromSpaceMavenRepoTask::class) {
@@ -153,4 +139,3 @@ fun connectToGitHub() =
     GitHubBuilder()
         .withOAuthToken(System.getenv("SKIKO_GH_RELEASE_TOKEN"))
         .build()
-
