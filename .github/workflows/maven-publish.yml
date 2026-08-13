@@ -78,7 +78,7 @@ jobs:
               -Pskiko.awt.enabled=true \
               -Pskiko.arch=x64 \
               :skiko:publishToComposeRepo \
-              :skiko-graphite:publishToComposeRepo
+              :skiko:skiko-graphite:publishToComposeRepo
 
       - uses: ./.github/actions/docker-skiko-run
         name: 'Publish Native'
@@ -123,7 +123,7 @@ jobs:
               -Pskiko.awt.enabled=true \
               -Pskiko.arch=arm64 \
               :skiko:publishSkikoJvmRuntimeLinuxArm64PublicationToComposeRepoRepository \
-              :skiko-graphite:publishSkikoJvmRuntimeLinuxArm64PublicationToComposeRepoRepository
+              :skiko:skiko-graphite:publishSkikoJvmRuntimeLinuxArm64PublicationToComposeRepoRepository
 
   macOS:
     name: 'macOS'
@@ -156,7 +156,7 @@ jobs:
             -Pskiko.awt.enabled=true \
             -Pskiko.arch=arm64 \
             :skiko:publishToComposeRepo \
-            :skiko-graphite:publishToComposeRepo
+            :skiko:skiko-graphite:publishToComposeRepo
 
       - shell: bash
         name: 'Publish AWT Runtime x64'
@@ -171,7 +171,7 @@ jobs:
             -Pskiko.awt.enabled=true \
             -Pskiko.arch=x64 \
             :skiko:publishSkikoJvmRuntimeMacosX64PublicationToComposeRepoRepository \
-            :skiko-graphite:publishSkikoJvmRuntimeMacosX64PublicationToComposeRepoRepository
+            :skiko:skiko-graphite:publishSkikoJvmRuntimeMacosX64PublicationToComposeRepoRepository
 
   Windows:
     name: 'Windows'
@@ -207,7 +207,7 @@ jobs:
             -Pskiko.awt.enabled=true \
             -Pskiko.arch=x64 \
             :skiko:publishToComposeRepo \
-            :skiko-graphite:publishToComposeRepo
+            :skiko:skiko-graphite:publishToComposeRepo
 
       - shell: bash
         name: 'Publish AWT Runtime arm64'
@@ -222,4 +222,4 @@ jobs:
             -Pskiko.awt.enabled=true \
             -Pskiko.arch=arm64 \
             :skiko:publishSkikoJvmRuntimeWindowsArm64PublicationToComposeRepoRepository \
-            :skiko-graphite:publishSkikoJvmRuntimeWindowsArm64PublicationToComposeRepoRepository
+            :skiko:skiko-graphite:publishSkikoJvmRuntimeWindowsArm64PublicationToComposeRepoRepository
