@@ -225,8 +225,7 @@ fun SkikoProjectContext.createCompileJvmBindingsTask(
         "src/jvmMain/cpp/common",
         "src/awtMain/cpp/common",
         "src/awtMain/cpp/${targetOs.id}",
-        "src/jvmTest/cpp"
-    )
+    ) + if (skiko.includeTestHelpers) projectDirs("src/jvmTest/cpp") else emptyList()
     sourceRoots.set(srcDirs)
     if (targetOs != OS.Android) includeHeadersNonRecursive(jdkHome.resolve("include"))
     val skiaDir = skiaJvmBindingsDir.get()
@@ -316,6 +315,7 @@ fun SkikoProjectContext.createCompileJvmBindingsTask(
         listOf(
             *skiaPreprocessorFlags(targetOs, buildType),
             *osFlags,
+            *dependencyRegistry.getCompilerFlags(targetOs, targetArch, TargetEnv.JVM).toTypedArray(),
         )
     )
 }
@@ -576,6 +576,15 @@ fun SkikoProjectContext.createLinkJvmBindings(
                         "winmm.lib",
                     )
                 )
+                if ("vulkan-1" in resolvedBinaryInputs.dynamicLibNames) {
+                    val vulkanSdk = System.getenv("VULKAN_SDK")
+                        ?: error("VULKAN_SDK must point to a Vulkan SDK when linking Vulkan on Windows")
+                    val vulkanLibDir = when (targetArch) {
+                        Arch.Arm64 -> "Lib-ARM64"
+                        else -> "Lib"
+                    }
+                    add("/LIBPATH:$vulkanSdk\\$vulkanLibDir")
+                }
                 if (buildType == SkiaBuildType.DEBUG) add("dxgi.lib")
                 addAll(resolvedBinaryInputs.dynamicLibNames.map { "$it.lib" })
                 addAll(resolvedBinaryInputs.linkFlags)

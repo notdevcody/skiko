@@ -81,7 +81,8 @@ class SkikoProjectContext(
             directStaticArchivePaths = directStaticArchivePaths(os, arch, env, skiaBinDir),
             dynamicLibNames = dynamicLibNames(os, arch, env),
             frameworks = dependencyRegistry.getFrameworks(os, arch, env),
-            linkFlags = dependencyRegistry.getLinkFlags(os, arch, env)
+            linkFlags = dependencyRegistry.getLinkFlags(os, arch, env),
+            compilerFlags = dependencyRegistry.getCompilerFlags(os, arch, env)
         )
     }
 }
@@ -104,7 +105,7 @@ fun SkikoProjectContext.declareSkiaTasks() {
 
             val skiaReleaseTag = project.skiaVersion(target)
 
-            val skiaBaseUrl = "https://github.com/JetBrains/skia/releases/download/$skiaReleaseTag"
+            val skiaBaseUrl = "https://github.com/hub-bla/skia/releases/download/$skiaReleaseTag"
 
             val artifactId = "Skia-${skiaReleaseTag}-${config}-$buildType-${arch}"
 
@@ -183,9 +184,6 @@ val Project.supportAndroid: Boolean
 
 val Project.supportAwt: Boolean
     get() = findProperty(SkikoGradleProperties.AWT_ENABLED) == "true" || isInIdea
-
-val Project.supportGraphiteJvm: Boolean
-    get() = hostOs == OS.MacOS && findProperty(SkikoGradleProperties.GRAPHITE_JVM_ENABLED) == "true"
 
 val Project.supportAllNative: Boolean
     get() = findProperty(SkikoGradleProperties.NATIVE_ENABLED) == "true" || isInIdea
