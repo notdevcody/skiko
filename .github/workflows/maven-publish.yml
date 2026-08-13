@@ -19,7 +19,7 @@ concurrency:
 env:
   COMPOSE_REPO_URL: ${{ secrets.COMPOSE_REPO_URL }}
   COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
-  COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
+  COMPOSE_REPO_KEY: ${{ secrets.COMPOSE_REPO_KEY }}
 
 jobs:
   resolve-version:
@@ -67,7 +67,7 @@ jobs:
         env:
           COMPOSE_REPO_URL: ${{ secrets.COMPOSE_REPO_URL }}
           COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
-          COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
+          COMPOSE_REPO_KEY: ${{ secrets.COMPOSE_REPO_KEY }}
         with:
           image_name: linux-compat
           command: |
@@ -84,7 +84,7 @@ jobs:
         env:
           COMPOSE_REPO_URL: ${{ secrets.COMPOSE_REPO_URL }}
           COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
-          COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
+          COMPOSE_REPO_KEY: ${{ secrets.COMPOSE_REPO_KEY }}
         with:
           image_name: linux-amd64
           command: |
@@ -112,7 +112,7 @@ jobs:
         env:
           COMPOSE_REPO_URL: ${{ secrets.COMPOSE_REPO_URL }}
           COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
-          COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
+          COMPOSE_REPO_KEY: ${{ secrets.COMPOSE_REPO_KEY }}
         with:
           image_name: linux-compat
           command: |
@@ -145,7 +145,7 @@ jobs:
         env:
           COMPOSE_REPO_URL: ${{ secrets.COMPOSE_REPO_URL }}
           COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
-          COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
+          COMPOSE_REPO_KEY: ${{ secrets.COMPOSE_REPO_KEY }}
         run: |
           ./gradlew --no-daemon --stacktrace \
             -Pdeploy.version=${{ needs.resolve-version.outputs.deploy_version }} \
@@ -160,7 +160,7 @@ jobs:
         env:
           COMPOSE_REPO_URL: ${{ secrets.COMPOSE_REPO_URL }}
           COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
-          COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
+          COMPOSE_REPO_KEY: ${{ secrets.COMPOSE_REPO_KEY }}
         run: |
           ./gradlew --no-daemon --stacktrace \
             -Pdeploy.version=${{ needs.resolve-version.outputs.deploy_version }} \
@@ -195,7 +195,7 @@ jobs:
         env:
           COMPOSE_REPO_URL: ${{ secrets.COMPOSE_REPO_URL }}
           COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
-          COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
+          COMPOSE_REPO_KEY: ${{ secrets.COMPOSE_REPO_KEY }}
         run: |
           ./gradlew --no-daemon --stacktrace \
             -Pdeploy.version=${{ needs.resolve-version.outputs.deploy_version }} \
@@ -210,7 +210,7 @@ jobs:
         env:
           COMPOSE_REPO_URL: ${{ secrets.COMPOSE_REPO_URL }}
           COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
-          COMPOSE_REPO_USERNAME: ${{ secrets.COMPOSE_REPO_USERNAME }}
+          COMPOSE_REPO_KEY: ${{ secrets.COMPOSE_REPO_KEY }}
         run: |
           ./gradlew --no-daemon --stacktrace \
             -Pdeploy.version=${{ needs.resolve-version.outputs.deploy_version }} \
