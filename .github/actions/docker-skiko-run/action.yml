@@ -92,6 +92,9 @@ runs:
           -v "${HOME}/.gradle":/gradle-cache \
           -v "${HOME}/.m2":/root/.m2 \
           -e GRADLE_USER_HOME=/gradle-cache \
+          -e COMPOSE_REPO_URL \
+          -e COMPOSE_REPO_USERNAME \
+          -e COMPOSE_REPO_KEY \
           -w /workspace/${{ inputs.working_directory }} \
           "ghcr.io/${{ steps.vars.outputs.image_namespace }}/${{ inputs.image_name }}:${{ steps.vars.outputs.tag }}" \
           bash -c '${{ steps.cmd.outputs.command }}'
