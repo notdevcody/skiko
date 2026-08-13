@@ -8,12 +8,22 @@ on:
         required: false
         type: boolean
         default: true
+      build_windows:
+        description: 'Build the Windows Docker image'
+        required: false
+        type: boolean
+        default: true
   workflow_call: # Allow being called by other workflows
     inputs:
       publish:
         description: 'Publish to registry (if false, only dry-run build)'
         required: true
         type: boolean
+      build_windows:
+        description: 'Build the Windows Docker image'
+        required: false
+        type: boolean
+        default: true
 
 jobs:
   changes:
@@ -124,8 +134,10 @@ jobs:
     runs-on: windows-2022
     needs: changes
     if: |
+      inputs.build_windows == true && (
       needs.changes.outputs.windows == 'true' ||
       needs.changes.outputs.docker_workflow == 'true'
+      )
     permissions:
       contents: read
       packages: write

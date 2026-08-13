@@ -47,6 +47,7 @@ jobs:
     uses: ./.github/workflows/docker-publish.yml
     with:
       publish: true
+      build_windows: false
     permissions:
       contents: read
       packages: write
@@ -172,7 +173,7 @@ jobs:
   Windows:
     name: 'Windows'
     runs-on: windows-2022
-    needs: [resolve-version, docker-publish]
+    needs: resolve-version
     steps:
       - uses: actions/checkout@v4
         name: 'Check out code'
