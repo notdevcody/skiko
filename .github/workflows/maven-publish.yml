@@ -142,6 +142,9 @@ jobs:
       - uses: ./.github/actions/setup-prerequisites
         name: 'Setup Prerequisites'
 
+      - name: Install Vulkan SDK (macOS)
+        run: brew install molten-vk
+
       - shell: bash
         name: 'Publish arm64'
         env:
