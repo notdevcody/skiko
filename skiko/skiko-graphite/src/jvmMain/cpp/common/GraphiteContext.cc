@@ -29,12 +29,10 @@ static PFN_vkVoidFunction skikoVulkanGetProcCustom(const char* name,
     if (device != VK_NULL_HANDLE) {
         return g_deviceProc ? g_deviceProc(device, name) : nullptr;
     }
-
     if (instance != VK_NULL_HANDLE) {
         return g_instanceProc ? g_instanceProc(instance, name) : nullptr;
     }
-
-    return nullptr;
+    return g_instanceProc ? g_instanceProc(VK_NULL_HANDLE, name) : nullptr;
 }
 
 extern "C" JNIEXPORT jlong JNICALL
