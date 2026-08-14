@@ -27,19 +27,20 @@ static PFN_vkVoidFunction skikoVulkanGetProcCustom(const char* name,
                                                    VkInstance instance,
                                                    VkDevice device) {
     if (device != VK_NULL_HANDLE) {
-        if (g_deviceProc) {
-            return g_deviceProc(device, name);
-        } else {
-            return vkGetDeviceProcAddr(device, name);
+        if (!g_deviceProc) {
+            throw std::runtime_error("g_deviceProc is unavailable");
         }
-    } else if (instance != VK_NULL_HANDLE) {
-        if (g_instanceProc) {
-            return g_instanceProc(instance, name);
-        } else {
-            return vkGetInstanceProcAddr(instance, name);
-        }
+        return g_deviceProc(device, name);
     }
-    return nullptr;
+
+    if (instance != VK_NULL_HANDLE) {
+        if (!g_instanceProc) {
+            throw std::runtime_error("g_instanceProc is unavailable");
+        }
+        return g_instanceProc(instance, name);
+    }
+
+    throw std::runtime_error("No Vulkan instance or device provided");
 }
 
 extern "C" JNIEXPORT jlong JNICALL

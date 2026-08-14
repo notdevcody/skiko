@@ -12,21 +12,14 @@
 #include "include/gpu/vk/VulkanMemoryAllocator.h"
 #include "include/third_party/vulkan/vulkan/vulkan_core.h"
 
-// These declarations mirror Skia private internals used by Skia's own Vulkan examples/tools
-// We intentionally call Skia's allocator factory instead of implementing a custom allocator in Skiko
 namespace skgpu {
-enum class ThreadSafe : bool;
+    enum class ThreadSafe : bool;
 }
 
 namespace skgpu::VulkanMemoryAllocators {
-sk_sp<skgpu::VulkanMemoryAllocator> Make(const skgpu::VulkanBackendContext&, skgpu::ThreadSafe);
-}
-
-inline skgpu::VulkanGetProc skikoVulkanGetProc() {
-    return [](const char* name, VkInstance instance, VkDevice device) {
-        return device != VK_NULL_HANDLE ? vkGetDeviceProcAddr(device, name)
-                                        : vkGetInstanceProcAddr(instance, name);
-    };
+    sk_sp<skgpu::VulkanMemoryAllocator> Make(
+            const skgpu::VulkanBackendContext&,
+            skgpu::ThreadSafe);
 }
 
 inline skgpu::graphite::VulkanTextureInfo skikoVulkanTextureInfoFromIntArray(
