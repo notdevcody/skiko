@@ -50,6 +50,8 @@ class GraphiteContext internal constructor(ptr: NativePointer) : Managed(ptr, _F
          * @param graphicsQueueIndex index of the queue family [queuePtr] belongs to; it must
          * support graphics operations.
          * @param maxApiVersion highest Vulkan API version (`VK_MAKE_API_VERSION`) Skia may use.
+         * @param instanceProcAddr optional native pointer to a `PFN_vkGetInstanceProcAddr` function.
+         * @param deviceProcAddr optional native pointer to a `PFN_vkGetDeviceProcAddr` function.
          * @return a Graphite context backed by Vulkan.
          */
         fun makeVulkan(
@@ -59,6 +61,8 @@ class GraphiteContext internal constructor(ptr: NativePointer) : Managed(ptr, _F
             queuePtr: NativePointer,
             graphicsQueueIndex: Int,
             maxApiVersion: Int,
+            instanceProcAddr: NativePointer? = null,
+            deviceProcAddr: NativePointer? = null,
         ): GraphiteContext {
             requireVulkanSupport()
             require(instancePtr != NullPointer) { "Vulkan instance pointer is null" }
@@ -71,6 +75,8 @@ class GraphiteContext internal constructor(ptr: NativePointer) : Managed(ptr, _F
                 physicalDevicePtr,
                 devicePtr,
                 queuePtr,
+                instanceProcAddr,
+                deviceProcAddr,
                 graphicsQueueIndex,
                 maxApiVersion,
             )
@@ -176,6 +182,8 @@ private external fun _nMakeVulkan(
     physicalDevicePtr: NativePointer,
     devicePtr: NativePointer,
     queuePtr: NativePointer,
+    instanceProcAddr: NativePointer?,
+    deviceProcAddr: NativePointer?,
     graphicsQueueIndex: Int,
     maxApiVersion: Int,
 ): NativePointer

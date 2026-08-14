@@ -20,6 +20,28 @@ static void deleteGraphiteContext(skgpu::graphite::Context* context) {
     delete context;
 }
 
+static PFN_vkGetInstanceProcAddr g_instanceProc = nullptr;
+static PFN_vkGetDeviceProcAddr   g_deviceProc   = nullptr;
+
+static PFN_vkVoidFunction skikoVulkanGetProcCustom(const char* name,
+                                                   VkInstance instance,
+                                                   VkDevice device) {
+    if (device != VK_NULL_HANDLE) {
+        if (g_deviceProc) {
+            return g_deviceProc(device, name);
+        } else {
+            return vkGetDeviceProcAddr(device, name);
+        }
+    } else if (instance != VK_NULL_HANDLE) {
+        if (g_instanceProc) {
+            return g_instanceProc(instance, name);
+        } else {
+            return vkGetInstanceProcAddr(instance, name);
+        }
+    }
+    return nullptr;
+}
+
 extern "C" JNIEXPORT jlong JNICALL
 Java_org_jetbrains_skia_gpu_graphite_GraphiteContextKt__1nGetGraphiteContextFinalizer(JNIEnv*, jclass) {
     return static_cast<jlong>(reinterpret_cast<uintptr_t>(&deleteGraphiteContext));
@@ -46,9 +68,23 @@ Java_org_jetbrains_skia_gpu_graphite_GraphiteContextKt__1nMakeMetal(
 
 extern "C" JNIEXPORT jlong JNICALL
 Java_org_jetbrains_skia_gpu_graphite_GraphiteContextKt__1nMakeVulkan(
-        JNIEnv*, jclass, jlong instancePtr, jlong physicalDevicePtr, jlong devicePtr,
-        jlong queuePtr, jint graphicsQueueIndex, jint maxApiVersion) {
+        JNIEnv* env, jclass,
+        jlong instancePtr,
+        jlong physicalDevicePtr,
+        jlong devicePtr,
+        jlong queuePtr,
+        jlong instanceProcAddr,
+        jlong deviceProcAddr,
+        jint graphicsQueueIndex,
+        jint maxApiVersion) {
 #if defined(SK_VULKAN)
+    g_instanceProc = (instanceProcAddr != 0)
+                     ? reinterpret_cast<PFN_vkGetInstanceProcAddr>(instanceProcAddr)
+                     : nullptr;
+    g_deviceProc   = (deviceProcAddr != 0)
+                     ? reinterpret_cast<PFN_vkGetDeviceProcAddr>(deviceProcAddr)
+                     : nullptr;
+
     skgpu::VulkanBackendContext backendContext{};
     backendContext.fInstance = reinterpret_cast<VkInstance>(static_cast<uintptr_t>(instancePtr));
     backendContext.fPhysicalDevice =
@@ -57,16 +93,27 @@ Java_org_jetbrains_skia_gpu_graphite_GraphiteContextKt__1nMakeVulkan(
     backendContext.fQueue = reinterpret_cast<VkQueue>(static_cast<uintptr_t>(queuePtr));
     backendContext.fGraphicsQueueIndex = graphicsQueueIndex;
     backendContext.fMaxAPIVersion = maxApiVersion;
-    backendContext.fGetProc = skikoVulkanGetProc();
+
+    backendContext.fGetProc = skikoVulkanGetProcCustom;
+
     backendContext.fMemoryAllocator =
             skgpu::VulkanMemoryAllocators::Make(backendContext, static_cast<skgpu::ThreadSafe>(true));
     if (!backendContext.fMemoryAllocator) {
+        g_instanceProc = nullptr;
+        g_deviceProc = nullptr;
         return 0;
     }
 
     skgpu::graphite::ContextOptions options{};
     options.fRequireOrderedRecordings = true;
     auto context = skgpu::graphite::ContextFactory::MakeVulkan(backendContext, options);
+
+    if (!context) {
+        g_instanceProc = nullptr;
+        g_deviceProc = nullptr;
+        return 0;
+    }
+
     return reinterpret_cast<jlong>(context.release());
 #else
     return 0;

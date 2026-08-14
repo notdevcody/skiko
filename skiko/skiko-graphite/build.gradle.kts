@@ -34,6 +34,7 @@ val graphiteDependencies: SkikoDependencyScope.() -> Unit = {
                 staticSkiaLibs("skia_graphite_ext")
                 linkFlags("-lobjc")
                 frameworks("CoreFoundation", "Foundation", "Metal")
+                compilerFlags("-DSK_VULKAN", "-DSK_USE_INTERNAL_VULKAN_HEADERS")
             }
             linux {
                 staticSkiaLibs("skia_graphite_ext")
